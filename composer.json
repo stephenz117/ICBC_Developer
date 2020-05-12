@@ -13,7 +13,7 @@
     "minimum-stability": "dev",
 	"autoload": {
 		"psr-4": {
-			"ICBC\\" : "src/ICBC"
+			"ICBC\\" : "ICBC"
 		}
 	}
 }
