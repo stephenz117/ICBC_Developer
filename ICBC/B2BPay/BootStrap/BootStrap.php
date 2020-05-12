@@ -14,10 +14,6 @@ class BootStrap
 		$this->register();
 	}
 	
-	function __destruct()
-	{
-	}
-	
 	private function register()
 	{
 		$this->container->bind('IcbcClient', 'ICBC\B2BPay\Application\IcbcClient');
