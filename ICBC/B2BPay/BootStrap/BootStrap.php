@@ -34,10 +34,17 @@ class BootStrap
 		$this->container->bind('RSA', 'ICBC\B2BPay\UtilTools\RSA');
 	}
 	
-	public static function __callStatic($common, $request, $msgId, $appAuthToken)
+	public static function __callStatic($method, $arguments)
     {
-		$client = $this->container->make('IcbcClient');
-		$client->execute($common, $request, $msgId, $appAuthToken);
+		if (strtolower($method) != 'run')
+		{
+			throw new Exception("the method called error");
+		}
+		else
+		{
+			$client = $this->container->make('IcbcClient');
+			$client->execute($arguments['common'], $arguments['request'], $arguments['msgId'], $arguments['appAuthToken']);
+		}
     }
 }
 
