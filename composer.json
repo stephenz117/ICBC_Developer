@@ -1,0 +1,19 @@
+{
+    "name": "icbc_developer/icbc_developer",
+    "type": "l",
+    "require": {
+        "php": ">=7.0"
+    },
+    "authors": [
+        {
+            "name": "stephenz117",
+            "email": "stephenz117@126.com"
+        }
+    ],
+    "minimum-stability": "dev",
+	"autoload": {
+		"psr-4": {
+			"ICBC\\" : "src/ICBC"
+		}
+	}
+}
