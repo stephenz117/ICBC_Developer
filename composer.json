@@ -1,9 +1,15 @@
 {
     "name": "icbc_developer/icbc_developer",
     "type": "l",
+	"description": "ICBC development tools",
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+		"ext-json": "*",
+		"ext-curl": "*",
+		"ext-openssl": "*",
+		"ext-mbstring": "*"
     },
+    "license": "MIT",
     "authors": [
         {
             "name": "stephenz117",
@@ -11,10 +17,12 @@
         }
     ],
     "minimum-stability": "dev",
-	"license": "MIT",
-	"autoload": {
-		"psr-4": {
-			"ICBC\\" : "ICBC/"
-		}
-	}
+    "autoload": {
+        "classmap": [
+            "ICBC/B2BPay/BootStrap/BootStrap.php"
+        ],
+        "psr-4": {
+            "ICBC\\" : "ICBC/"
+        }
+    }
 }
