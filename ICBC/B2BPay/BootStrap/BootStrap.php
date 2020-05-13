@@ -17,29 +17,29 @@ class BootStrap
 	private function register()
 	{
 		$this->container->bind('IcbcClient', 'ICBC\B2BPay\Application\IcbcClient');
-		$this->container->bind('App', 'ICBC\B2BPay\Config\App');
-		$this->container->bind('Config', 'ICBC\B2BPay\Config\Config');
-		$this->container->bind('AuthInterface', 'ICBC\B2BPay\Contracts\AuthInterface');
-		$this->container->bind('HttpAbstract', 'ICBC\B2BPay\Contracts\HttpAbstract');
 		$this->container->bind('RequestFilter', 'ICBC\B2BPay\Filters\RequestFilter');
 		$this->container->bind('ResponseFilter', 'ICBC\B2BPay\Filters\ResponseFilter');
-		$this->container->bind('AES', 'ICBC\B2BPay\UtilTools\AES');
-		$this->container->bind('IcbcCa', 'ICBC\B2BPay\UtilTools\IcbcCa');
-		$this->container->bind('IcbcEncrypt', 'ICBC\B2BPay\UtilTools\IcbcEncrypt');
-		$this->container->bind('IcbcSignature', 'ICBC\B2BPay\UtilTools\IcbcSignature');
-		$this->container->bind('RSA', 'ICBC\B2BPay\UtilTools\RSA');
+		
+		$this->container->singleton('Config', 'ICBC\B2BPay\Config\Config');
+		$this->container->singleton('App', 'ICBC\B2BPay\Config\App');
+		$this->container->singleton('AES', 'ICBC\B2BPay\UtilTools\AES');
+		$this->container->singleton('IcbcCa', 'ICBC\B2BPay\UtilTools\IcbcCa');
+		$this->container->singleton('RSA', 'ICBC\B2BPay\UtilTools\RSA');
+		$this->container->singleton('IcbcEncrypt', 'ICBC\B2BPay\UtilTools\IcbcEncrypt');
+		$this->container->singleton('IcbcSignature', 'ICBC\B2BPay\UtilTools\IcbcSignature');
 	}
 	
 	public static function __callStatic($method, $arguments)
     {
 		if (strtolower($method) != 'run')
 		{
-			throw new Exception("the method called error");
+			throw new \Exception("the method called error");
 		}
 		else
 		{
-			$client = $this->container->make('IcbcClient');
-			$client->execute($arguments['common'], $arguments['request'], $arguments['msgId'], $arguments['appAuthToken']);
+			$context = new BootStrap();
+			$cctx = $context->container->make('IcbcClient');
+			$cctx->execute($arguments['common'], $arguments['request'], $arguments['msgId'], $arguments['appAuthToken']);
 		}
     }
 }

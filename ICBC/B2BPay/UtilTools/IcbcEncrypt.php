@@ -24,7 +24,7 @@ class IcbcEncrypt
 		}
 		else
 		{
-			throw new Exception("Only support AES encrypt!");
+			throw new \Exception("Only support AES encrypt!");
 		}
 	}
 
@@ -36,7 +36,7 @@ class IcbcEncrypt
 		}
 		else
 		{
-			throw new Exception("Only support AES decrypt!");
+			throw new \Exception("Only support AES decrypt!");
 		}
 	}
 }

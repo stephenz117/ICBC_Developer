@@ -14,7 +14,7 @@ class AES
         $plaintext .= str_repeat(chr($padding), $padding);
 		
         $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-        $key=self::substr($key, 0, mcrypt_enc_get_key_size($module));
+        $key = self::substr($key, 0, mcrypt_enc_get_key_size($module));
         $iv = str_repeat("\0", $size);
         mcrypt_generic_init($module, $key, $iv);
 		
@@ -40,7 +40,7 @@ class AES
         if ($encrypted == '') return '';
         $ciphertext_dec = base64_decode($encrypted);
         $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-        $key=self::substr($key, 0, mcrypt_enc_get_key_size($module));
+        $key = self::substr($key, 0, mcrypt_enc_get_key_size($module));
         
         $iv = str_repeat("\0", 16);
         mcrypt_generic_init($module, $key, $iv);

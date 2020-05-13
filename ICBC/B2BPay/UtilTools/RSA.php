@@ -16,17 +16,17 @@ class RSA implements AuthInterface
 	
 	public function sign($content, $privateKey, $algorithm)
 	{
-		if($this->config::SIGN_SHA1RSA_ALGORITHMS == $algorithm)
+		if ($this->config::SIGN_SHA1RSA_ALGORITHMS == $algorithm)
 		{
-			openssl_sign($content,$signature,"-----BEGIN PRIVATE KEY-----\n".$privateKey."\n-----END PRIVATE KEY-----", OPENSSL_ALGO_SHA1);
+			openssl_sign($content, $signature, "-----BEGIN PRIVATE KEY-----\n" . $privateKey . "\n-----END PRIVATE KEY-----", OPENSSL_ALGO_SHA1);
 		}
 		else if ($this->config::SIGN_SHA256RSA_ALGORITHMS == $algorithm)
 		{
-			openssl_sign($content,$signature,"-----BEGIN PRIVATE KEY-----\n".$privateKey."\n-----END PRIVATE KEY-----", OPENSSL_ALGO_SHA256);
+			openssl_sign($content, $signature, "-----BEGIN PRIVATE KEY-----\n" . $privateKey . "\n-----END PRIVATE KEY-----", OPENSSL_ALGO_SHA256);
 		}
 		else
 		{
-			throw new Exception("Only support OPENSSL_ALGO_SHA1 or OPENSSL_ALGO_SHA256 algorithm signature!");
+			throw new \Exception("Only support OPENSSL_ALGO_SHA1 or OPENSSL_ALGO_SHA256 algorithm signature!");
 		}
 		return base64_encode($signature);
 	}
@@ -35,15 +35,15 @@ class RSA implements AuthInterface
 	{
 		if($this->config::SIGN_SHA1RSA_ALGORITHMS == $algorithm)
 		{
-			return openssl_verify($content,base64_decode($signature),"-----BEGIN PUBLIC KEY-----\n".$publicKey."\n-----END PUBLIC KEY-----", OPENSSL_ALGO_SHA1);
+			return openssl_verify($content, base64_decode($signature), "-----BEGIN PUBLIC KEY-----\n" . $publicKey . "\n-----END PUBLIC KEY-----", OPENSSL_ALGO_SHA1);
 		}
 		else if ($this->config::SIGN_SHA256RSA_ALGORITHMS == $algorithm)
 		{
-			return openssl_verify($content,base64_decode($signature),"-----BEGIN PUBLIC KEY-----\n".$publicKey."\n-----END PUBLIC KEY-----", OPENSSL_ALGO_SHA256);
+			return openssl_verify($content, base64_decode($signature), "-----BEGIN PUBLIC KEY-----\n" . $publicKey . "\n-----END PUBLIC KEY-----", OPENSSL_ALGO_SHA256);
 		}
 		else
 		{
-			throw new Exception("Only support OPENSSL_ALGO_SHA1 or OPENSSL_ALGO_SHA256 algorithm signature verify!");
+			throw new \Exception("Only support OPENSSL_ALGO_SHA1 or OPENSSL_ALGO_SHA256 algorithm signature verify!");
 		}
 	}
 }

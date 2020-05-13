@@ -28,11 +28,11 @@ class IcbcClient extends HttpAbstract
 	{
 		$params = $this->prepareParams($common, $request, $msgId, $appAuthToken);
 		
-		if ($request["method"] == "GET")
+		if (strtoupper($request["method"]) == "GET")
 		{
 			$respStr = parent::doGet($request["serviceUrl"], $params, $common['charset']);
 		}
-		else if ($request["method"] == "POST")
+		else if (strtoupper($request["method"]) == "POST")
 		{
 			$respStr = parent::doPost($request["serviceUrl"], $params, $common['charset']);
 		}
@@ -52,7 +52,7 @@ class IcbcClient extends HttpAbstract
 		}
 		if ($request["isNeedEncrypt"])
 		{
-			$respBizContentStr = $this->encrypt::decryptContent(substr($respBizContentStr, 1 , strlen($respBizContentStr)-2), $common['encryptType'], $common['encryptKey'], $common['charset']);
+			$respBizContentStr = $this->encrypt->decryptContent(substr($respBizContentStr, 1 , strlen($respBizContentStr)-2), $common['encryptType'], $common['encryptKey'], $common['charset']);
 		}
 		return $respBizContentStr;
 	}

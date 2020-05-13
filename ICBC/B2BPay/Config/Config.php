@@ -4,7 +4,7 @@ namespace ICBC\B2BPay\Config;
 
 class Config
 {
-	public const VERSION = "1.0.0";
+	public const VERSION = "1.0.9";
 	
 	public const APIVERSION = "v2_20170324";
 	

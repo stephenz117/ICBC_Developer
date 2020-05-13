@@ -25,9 +25,9 @@ class ResponseFilter
 	
 	public function validResponseParam($param_name = '', $param_value = '', $patten = [], $required = false)
 	{
-		if ($required && empty($param_value))
+		if ($required && !empty($param_name) && empty($param_value))
 		{
-			throw new Exception("the request param {$param_name} cannot be empty");
+			throw new Exception("the response param {$param_name} cannot be empty");
 		}
 		else
 		{

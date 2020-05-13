@@ -21,14 +21,14 @@ class IcbcCa implements AuthInterface
 	 	}
 		else
 		{
-			throw new Exception("loaded infosec module failed");
+			throw new \Exception("loaded infosec module failed");
 		}
 		
 		$plaint = $content;
 		if(strlen($plaint) <= 0)
 		{
 			echo "WARNING : no source data input";
-			throw new Exception("no source data input");
+			throw new \Exception("no source data input");
 		}
 		
 		$contents = base64_decode($privatekey);
@@ -38,14 +38,14 @@ class IcbcCa implements AuthInterface
 		if(strlen($pass) <= 0)
 		{
 			echo "WARNING : no key password input";
-			throw new Exception("no key password input");
+			throw new \Exception("no key password input");
 		}
 		else
 		{
 			$signature = sign($plaint, $key, $pass);
 			$code = current($signature);
 			$len = next($signature);
-			$signcode = base64enc($code);
+			$signcode = base64_encode($code);
 			return current($signcode);
 		}
 	}

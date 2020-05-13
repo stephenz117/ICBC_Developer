@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace ICBC\B2BPay\Config;
 
@@ -14,5 +14,6 @@ class App
 
 	public const RSA2PRIVATEKEY = "";
 }
+
 
 ?>

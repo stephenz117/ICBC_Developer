@@ -77,35 +77,36 @@ abstract class HttpAbstract
 			return $strUrl;
 		}
 		$buildUrlParams = http_build_query($params);
-		if (strrpos($strUrl,'?',0) != (strlen($strUrl) + 1))
+		if (strrpos($strUrl, '?', 0) != (strlen($strUrl) + 1))
 		{
-			return $strUrl.'?'.$buildUrlParams;
+			return $strUrl . '?' . $buildUrlParams;
 		}
-		return $strUrl.$buildUrlParams;
+		return $strUrl . $buildUrlParams;
 	}
 
 	protected static function buildOrderedSignStr($path, $params)
 	{
 		$isSorted = ksort($params);
-		$comSignStr = $path.'?';
+		$comSignStr = $path . '?';
 
 		$hasParam = false;
 		foreach ($params as $key => $value)
 		{
 			if (empty($key) || empty($value))
 			{
+				//do nothing
 			}
 			else
 			{
 				if ($hasParam)
 				{
-					$comSignStr = $comSignStr.'&';
+					$comSignStr = $comSignStr . '&';
 				}
 				else
 				{
 					$hasParam = true;
 				}
-				$comSignStr = $comSignStr.$key.'='.$value;
+				$comSignStr = $comSignStr . $key . '=' . $value;
 			}
 		}
 

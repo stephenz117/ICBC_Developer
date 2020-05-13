@@ -35,7 +35,7 @@ class IcbcSignature
 		}
 		else
 		{
-			throw new Exception("Only support CA\RSA signature!");
+			throw new \Exception("Only support CA\RSA signature!");
 		}
 	}
 
@@ -55,7 +55,7 @@ class IcbcSignature
 		}
 		else
 		{
-			throw new Exception("Only support CA or RSA signature verify!");
+			throw new \Exception("Only support CA or RSA signature verify!");
 		}
 	}
 }
