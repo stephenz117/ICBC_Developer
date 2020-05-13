@@ -39,7 +39,11 @@ class BootStrap
 		{
 			$context = new BootStrap();
 			$cctx = $context->container->make('IcbcClient');
-			$cctx->execute($arguments['common'], $arguments['request'], $arguments['msgId'], $arguments['appAuthToken']);
+			if (!empty($arguments))
+			{
+				$argv = array_shift($arguments);
+			}
+			return $cctx->execute($argv['common'], $argv['request'], $argv['msgId'], $argv['appAuthToken']);
 		}
     }
 }

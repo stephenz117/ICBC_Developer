@@ -2,21 +2,15 @@
 
 namespace ICBC\B2BPay\Contracts;
 
-use \ICBC\B2BPay\Config\Config;
-
 abstract class HttpAbstract
 {
-	private $config;
-
-	function __construct(Config $config)
-	{
-		$this->config = $config;
-	}
+	protected static $version_header_name;
+	protected static $api_version;
 	
 	protected static function doGet($url, $params, $charset)
 	{
 		$headers = array();
-		$headers[$this->config::VERSION_HEADER_NAME] = $this->config::APIVERSION;
+		$headers[self::$version_header_name] = self::$api_version;
 		$getUrl = self::buildGetUrl($url, $params, $charset);
 
 		$ch = curl_init();
@@ -44,7 +38,7 @@ abstract class HttpAbstract
 	{
 		$headers = array();
 		$headers[] = 'Expect:';
-		$headers[$this->config::VERSION_HEADER_NAME] = $this->config::APIVERSION;
+		$headers[self::$version_header_name] = self::$api_version;
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);

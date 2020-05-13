@@ -12,8 +12,8 @@ class Container
 		{
             $concrete = $abstract;
         }
-
-        if (!$concrete instanceOf Closure)
+		
+        if (!$concrete instanceOf \Closure)
 		{
             $concrete = $this->getClosure($abstract, $concrete);
         }
@@ -64,12 +64,12 @@ class Container
 	
     public function isBuildable($concrete, $abstract)
     {
-        return $concrete === $abstract || $concrete instanceof Closure;
+        return $concrete === $abstract || $concrete instanceof \Closure;
     }
 	
     public function build($concrete)
     {
-        if ($concrete instanceof Closure)
+        if ($concrete instanceof \Closure)
 		{
             return $concrete($this);
         }
@@ -106,16 +106,16 @@ class Container
         return $results;
     }
 	
-    public function resolvedNonClass(ReflectionParameter $parameter)
+    public function resolvedNonClass(\ReflectionParameter $parameter)
     {
         if ($parameter->isDefaultValueAvailable())
 		{
             return $parameter->getDefaultValue();
         }
-        throw new \Exception('出错');
+        throw new \Exception('resolve出错');
     }
 	
-    public function resolvedClass(ReflectionParameter $parameter)
+    public function resolvedClass(\ReflectionParameter $parameter)
     {
         return $this->make($parameter->getClass()->name);
     }

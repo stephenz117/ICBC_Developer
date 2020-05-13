@@ -6,7 +6,7 @@ use \ICBC\B2BPay\Contracts\AuthInterface;
 
 class IcbcCa implements AuthInterface
 {
-	public function sign($content, $privatekey, $password)
+	public function sign($content, $privateKey, $algorithm)
 	{
 		if (!extension_loaded('infosec'))
 		{
@@ -34,7 +34,7 @@ class IcbcCa implements AuthInterface
 		$contents = base64_decode($privatekey);
 		$key = substr($contents,2);
 		
-		$pass = $password;
+		$pass = $algorithm;
 		if(strlen($pass) <= 0)
 		{
 			echo "WARNING : no key password input";
@@ -50,7 +50,7 @@ class IcbcCa implements AuthInterface
 		}
 	}
 
-	public function verify($content, $publicKey, $password)
+	public function verify($content, $signature, $publicKey, $algorithm)
 	{
 	}
 }

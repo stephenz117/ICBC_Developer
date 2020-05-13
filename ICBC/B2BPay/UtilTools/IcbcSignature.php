@@ -3,8 +3,8 @@
 namespace ICBC\B2BPay\UtilTools;
 
 use \ICBC\B2BPay\Config\Config;
-use IcbcCa;
-use RSA;
+use \ICBC\B2BPay\UtilTools\IcbcCa;
+use \ICBC\B2BPay\UtilTools\RSA;
 
 class IcbcSignature
 {
@@ -27,11 +27,11 @@ class IcbcSignature
 		}
 		else if ($this->config::SIGN_TYPE_RSA == $signType)
 		{
-			return $this->rsa->sign($strToSign, $privateKey, $this->config->getConstantSignSha1rsaAlgorithms());
+			return $this->rsa->sign($strToSign, $privateKey, $this->config::SIGN_SHA1RSA_ALGORITHMS);
 		}
 		else if ($this->config::SIGN_TYPE_RSA2 == $signType)
 		{
-			return $this->rsa->sign($strToSign, $privateKey, $this->config->getConstantSignSha256rsaAlgorithms());
+			return $this->rsa->sign($strToSign, $privateKey, $this->config::SIGN_SHA256RSA_ALGORITHMS);
 		}
 		else
 		{
@@ -47,11 +47,11 @@ class IcbcSignature
 		}
 		else if ($this->config::SIGN_TYPE_RSA == $signType)
 		{
-			return $this->rsa->verify($strToSign, $signedStr, $publicKey, $this->config->getConstantSignSha1rsaAlgorithms());
+			return $this->rsa->verify($strToSign, $signedStr, $publicKey, $this->config::SIGN_SHA1RSA_ALGORITHMS);
 		}
 		else if ($this->config::SIGN_TYPE_RSA2 == $signType)
 		{
-			return $this->rsa->verify($strToSign, $signedStr, $publicKey, $this->config->getConstantSignSha256rsaAlgorithms());
+			return $this->rsa->verify($strToSign, $signedStr, $publicKey, $this->config::SIGN_SHA256RSA_ALGORITHMS);
 		}
 		else
 		{

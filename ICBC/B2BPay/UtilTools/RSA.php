@@ -31,7 +31,7 @@ class RSA implements AuthInterface
 		return base64_encode($signature);
 	}
 
-	public static function verify($content, $signature, $publicKey, $algorithm)
+	public function verify($content, $signature, $publicKey, $algorithm)
 	{
 		if($this->config::SIGN_SHA1RSA_ALGORITHMS == $algorithm)
 		{

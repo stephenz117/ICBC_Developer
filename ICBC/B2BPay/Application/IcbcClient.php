@@ -22,6 +22,9 @@ class IcbcClient extends HttpAbstract
 		$this->app = $app;
 		$this->encrypt = $encrypt;
 		$this->signature = $signature;
+		
+		parent::$version_header_name = $this->config::VERSION_HEADER_NAME;
+		parent::$api_version = $this->config::APIVERSION;
 	}
 	
 	public function execute($common, $request, $msgId, $appAuthToken)
@@ -44,7 +47,7 @@ class IcbcClient extends HttpAbstract
 		$respBizContentStr = json_encode(json_decode($respStr, true)[$this->config::RESPONSE_BIZ_CONTENT], 320);
 		$sign = json_decode($respStr, true)[$this->config::SIGN];
 		
-		$passed = $this->signature->verify($respBizContentStr, $this->config::SIGN_TYPE_RSA, $common['icbcPulicKey'], $common['charset'], $sign);
+		$passed = $this->signature->verify($respBizContentStr, $this->config::SIGN_TYPE_RSA, $common['icbcPulicKey'], $common['charset'], $sign, $common['password']);
 
 		if (!$passed)
 		{
@@ -96,7 +99,7 @@ class IcbcClient extends HttpAbstract
 
 		$strToSign = parent::buildOrderedSignStr($path, $params);
 
-		$signedStr = $this->signature::sign($strToSign, $common['signType'], $common['privateKey'], $common['charset'], $common['password']);
+		$signedStr = $this->signature->sign($strToSign, $common['signType'], $common['privateKey'], $common['charset'], $common['password']);
 
 		$params[$this->config::SIGN] = $signedStr;
 		return $params;

@@ -4,9 +4,9 @@ namespace ICBC\B2BPay\Contracts;
 
 interface AuthInterface
 {
-	public function sign;
+	public function sign($content, $privateKey, $algorithm);
 	
-	public function verify;
+	public function verify($content, $signature, $publicKey, $algorithm);
 }
 
 
