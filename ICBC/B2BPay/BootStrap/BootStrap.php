@@ -11,10 +11,10 @@ class BootStrap
 	function __construct()
 	{
 		$this->container = new Container();
-		self::register();
+		$this->register();
 	}
 	
-	private static function register()
+	private function register()
 	{
 		$this->container->bind('IcbcClient', 'ICBC\B2BPay\Application\IcbcClient');
 		$this->container->bind('RequestFilter', 'ICBC\B2BPay\Filters\RequestFilter');
