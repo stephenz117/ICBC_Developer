@@ -4,9 +4,9 @@ namespace ICBC\B2BPay\Contracts;
 
 class Container
 {
-    public $building = [];
+    private static $building = [];
 	
-    public function bind($abstract, $concrete = null, $shared = false)
+    public static function bind($abstract, $concrete = null, $shared = false)
     {
         if (is_null($concrete))
 		{
@@ -15,59 +15,59 @@ class Container
 		
         if (!$concrete instanceOf \Closure)
 		{
-            $concrete = $this->getClosure($abstract, $concrete);
+            $concrete = self::getClosure($abstract, $concrete);
         }
 
-        $this->building[$abstract] = compact("concrete", "shared");
+        self::building[$abstract] = compact("concrete", "shared");
     }
 	
-    public function singleton($abstract, $concrete, $shared = true)
+    public static function singleton($abstract, $concrete, $shared = true)
 	{
-        $this->bind($abstract, $concrete, $shared);
+        self::bind($abstract, $concrete, $shared);
     }
 	
-    public function getClosure($abstract, $concrete)
+    private static function getClosure($abstract, $concrete)
     {
         return function($c) use($abstract, $concrete)
 		{
             $method = ($abstract == $concrete) ? 'build' : 'make';
 
-            return $c->$method($concrete);
+            return $c::$method($concrete);
         };
     }
 	
-    public function make($abstract)
+    public static function make($abstract)
     {
-        $concrete = $this->getConcrete($abstract);
+        $concrete = self::getConcrete($abstract);
 
-        if ($this->isBuildable($concrete, $abstract))
+        if (self::isBuildable($concrete, $abstract))
 		{
-            $object = $this->build($concrete);
+            $object = self::build($concrete);
         }
 		else
 		{
-            $object = $this->make($concrete);
+            $object = self::make($concrete);
         }
 
         return $object;
     }
 	
-    public function getConcrete($abstract)
+    private static function getConcrete($abstract)
     {
-        if (!isset($this->building[$abstract]))
+        if (!isset(self::building[$abstract]))
 		{
             return $abstract;
         }
 
-        return $this->building[$abstract]['concrete'];
+        return self::building[$abstract]['concrete'];
     }
 	
-    public function isBuildable($concrete, $abstract)
+    private static function isBuildable($concrete, $abstract)
     {
         return $concrete === $abstract || $concrete instanceof \Closure;
     }
 	
-    public function build($concrete)
+    private static function build($concrete)
     {
         if ($concrete instanceof \Closure)
 		{
@@ -88,25 +88,25 @@ class Container
         }
 
         $dependencies = $constructor->getParameters();
-        $instance = $this->getDependencies($dependencies);
+        $instance = self::getDependencies($dependencies);
 
         return $reflector->newInstanceArgs($instance);
     }
 	
-    public function getDependencies(array $dependencies)
+    private static function getDependencies(array $dependencies)
     {
         $results = [];
         foreach ($dependencies as $dependency)
 		{
             $results[] = is_null($dependency->getClass())
-                ? $this->resolvedNonClass($dependency)
-                : $this->resolvedClass($dependency);
+                ? self::resolvedNonClass($dependency)
+                : self::resolvedClass($dependency);
         }
 
         return $results;
     }
 	
-    public function resolvedNonClass(\ReflectionParameter $parameter)
+    private static function resolvedNonClass(\ReflectionParameter $parameter)
     {
         if ($parameter->isDefaultValueAvailable())
 		{
@@ -115,9 +115,9 @@ class Container
         throw new \Exception('resolve出错');
     }
 	
-    public function resolvedClass(\ReflectionParameter $parameter)
+    private static function resolvedClass(\ReflectionParameter $parameter)
     {
-        return $this->make($parameter->getClass()->name);
+        return self::make($parameter->getClass()->name);
     }
 }
 

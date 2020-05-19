@@ -3,8 +3,6 @@
 namespace ICBC\B2BPay\UtilTools;
 
 use \ICBC\B2BPay\Config\Config;
-use \ICBC\B2BPay\UtilTools\IcbcCa;
-use \ICBC\B2BPay\UtilTools\RSA;
 
 class IcbcSignature
 {

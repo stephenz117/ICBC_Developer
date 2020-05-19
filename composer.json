@@ -3,7 +3,7 @@
     "type": "l",
 	"description": "ICBC development tools",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.0.0",
 		"ext-json": "*",
 		"ext-curl": "*",
 		"ext-openssl": "*",
@@ -18,9 +18,6 @@
     ],
     "minimum-stability": "dev",
     "autoload": {
-        "files": [
-            "ICBC/B2BPay/BootStrap/BootStrap.php"
-        ],
         "psr-4": {
             "ICBC\\" : "ICBC/"
         }
