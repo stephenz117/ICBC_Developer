@@ -2,6 +2,8 @@
 
 namespace ICBC\B2BPay\Contracts;
 
+use \ICBC\B2BPay\UtilTools\IcbcLog;
+
 abstract class HttpAbstract
 {
 	protected static $version_header_name;
@@ -11,6 +13,8 @@ abstract class HttpAbstract
 	{
 		$headers = array();
 		$headers[self::$version_header_name] = self::$api_version;
+		$res = IcbcLog::logHeaderAndContent($headers, $params);
+		
 		$getUrl = self::buildGetUrl($url, $params, $charset);
 
 		$ch = curl_init();
@@ -28,7 +32,7 @@ abstract class HttpAbstract
 
 		if ($resinfo["http_code"] != 200)
 		{
-			throw new Exception("response status code is not valid. status code: ".$resinfo["http_code"]);
+			throw new \Exception("response status code is not valid. status code: ".$resinfo["http_code"]);
 		}
 
 		return $response;
@@ -39,6 +43,7 @@ abstract class HttpAbstract
 		$headers = array();
 		$headers[] = 'Expect:';
 		$headers[self::$version_header_name] = self::$api_version;
+		$res = IcbcLog::logHeaderAndContent($headers, $params);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -59,7 +64,7 @@ abstract class HttpAbstract
 
 		if ($resinfo["http_code"] != 200)
 		{
-			throw new Exception("response status code is not valid. status code: ".$resinfo["http_code"]);
+			throw new \Exception("response status code is not valid. status code: ".$resinfo["http_code"]);
 		}
 		return $response;
 	}
@@ -106,6 +111,36 @@ abstract class HttpAbstract
 
 		return $comSignStr;
 	}
+	
+	protected static function buildForm($url, $params)
+	{
+		$buildedFields = self::buildHiddenFields($params);
+		return '<form name="auto_submit_form" method="post" action="' . $url . '">' . "\n" . $buildedFields . '<input type="submit" value="立刻提交" style="display:none" >' . "\n" . '</form>' . "\n" . '<script>document.forms[0].submit();</script>';
+	}
+
+	protected static function buildHiddenFields($params)
+	{
+		if ($params == null || count($params) == 0) {
+			return '';
+		}
+
+		$result = '';
+		foreach ($params as $key => $value)
+		{
+			if($key == null || $value == null){
+				continue;
+			}
+			$buildfield = self::buildHiddenField($key, $value);
+			$result = $result . $buildfield;
+		}
+		
+		return $result;
+	}
+
+	protected static function buildHiddenField($key, $value)
+	{
+		return '<input type="hidden" name="' . $key . '" value="' . preg_replace('/"/', '&quot;', $value) . '">' . "\n";
+	} 
 }
 
 ?>

@@ -31,7 +31,13 @@ class IcbcClient extends HttpAbstract
 	{
 		$params = $this->prepareParams($common, $request, $msgId, $appAuthToken);
 		
-		if (strtoupper($request["method"]) == "GET")
+		if (!empty($request["doform"]))
+		{
+			unset($request["doform"]);
+			$respStr = parent::buildForm($request["serviceUrl"], $params);
+			return $respStr;
+		}
+		else if (strtoupper($request["method"]) == "GET")
 		{
 			$respStr = parent::doGet($request["serviceUrl"], $params, $common['charset']);
 		}
@@ -41,7 +47,7 @@ class IcbcClient extends HttpAbstract
 		}
 		else
 		{
-			throw new Exception("Only support GET or POST http method!");
+			throw new \Exception("Only support GET or POST http method!");
 		}
 		
 		$respBizContentStr = json_encode(json_decode($respStr, true)[$this->config::RESPONSE_BIZ_CONTENT], 320);
@@ -51,7 +57,7 @@ class IcbcClient extends HttpAbstract
 
 		if (!$passed)
 		{
-			throw new Exception("icbc sign verify not passed!");
+			throw new \Exception("icbc sign verify not passed!");
 		}
 		if ($request["isNeedEncrypt"])
 		{
@@ -60,7 +66,7 @@ class IcbcClient extends HttpAbstract
 		return $respBizContentStr;
 	}
 	
-	function prepareParams($common, $request, $msgId, $appAuthToken)
+	private function prepareParams($common, $request, $msgId, $appAuthToken)
 	{
 		$bizContentStr = json_encode($request["biz_content"]);
 
@@ -105,7 +111,7 @@ class IcbcClient extends HttpAbstract
 		return $params;
 	}
 
-	function JSONTRANSLATE($array)
+	private function JSONTRANSLATE($array)
 	{
 		foreach ($array as $key => $value){
 			$array[$key] = urlencode($value);
@@ -113,7 +119,7 @@ class IcbcClient extends HttpAbstract
 		return json_encode($array);
 	}
 
-	function encodeOperations($array)
+	private function encodeOperations($array)
 	{
 		foreach ((array)$array as $key => $value)
 		{

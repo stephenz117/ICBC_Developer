@@ -27,7 +27,7 @@ class ResponseFilter
 	{
 		if ($required && !empty($param_name) && empty($param_value))
 		{
-			throw new Exception("the response param {$param_name} cannot be empty");
+			throw new \Exception("the response param {$param_name} cannot be empty");
 		}
 		else
 		{

@@ -27,7 +27,7 @@ class RequestFilter
 	{
 		if ($required && !empty($param_name) && empty($param_value))
 		{
-			throw new Exception("the request param {$param_name} cannot be empty");
+			throw new \Exception("the request param {$param_name} cannot be empty");
 		}
 		else
 		{
